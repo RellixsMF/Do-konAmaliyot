@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MarketPlace - Live Animated Market Experience</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+
+      @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+      }
+
+      @keyframes slideLeft {
+          0% { transform: translateX(100px); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes slideRight {
+          0% { transform: translateX(-100px); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes bounce {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+      }
+
+      @keyframes glow {
+          0%, 100% { box-shadow: 0 0 20px rgba(87, 181, 231, 0.3); }
+          50% { box-shadow: 0 0 40px rgba(87, 181, 231, 0.6); }
+      }
+
+      @keyframes wave {
+          0%, 100% { transform: rotate(-5deg); }
+          50% { transform: rotate(5deg); }
+      }
+
+      @keyframes moveCloud {
+          0% { transform: translateX(-100px); }
+          100% { transform: translateX(100vw); }
+      }
+
+      @keyframes flyBird {
+          0% { transform: translateX(-50px) translateY(0px); }
+          25% { transform: translateX(25vw) translateY(-20px); }
+          50% { transform: translateX(50vw) translateY(10px); }
+          75% { transform: translateX(75vw) translateY(-15px); }
+          100% { transform: translateX(100vw) translateY(5px); }
+      }
+
+      @keyframes walkPerson {
+          0% { transform: translateX(-30px); }
+          100% { transform: translateX(30px); }
+      }
+
+      @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
+      }
+
+      .animate-float { animation: float 3s ease-in-out infinite; }
+      .animate-slide-left { animation: slideLeft 1s ease-out; }
+      .animate-slide-right { animation: slideRight 1s ease-out; }
+      .animate-bounce-custom { animation: bounce 2s ease-in-out infinite; }
+      .animate-glow { animation: glow 2s ease-in-out infinite; }
+      .animate-wave { animation: wave 3s ease-in-out infinite; }
+      .animate-cloud { animation: moveCloud 20s linear infinite; }
+      .animate-bird { animation: flyBird 15s linear infinite; }
+      .animate-walk { animation: walkPerson 4s ease-in-out infinite alternate; }
+      .animate-pulse-custom { animation: pulse 2s ease-in-out infinite; }
+
+      .hero-bg {
+          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+          position: relative;
+          overflow: hidden;
+      }
+
+      .market-scene {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('https://readdy.ai/api/search-image?query=Dark%20atmospheric%20bustling%20marketplace%20scene%20with%20wooden%20stalls%2C%20warm%20lantern%20lighting%2C%20crowds%20of%20people%20shopping%2C%20fruit%20and%20vegetable%20vendors%2C%20clothing%20shops%2C%20dramatic%20shadows%20and%20highlights%2C%20cinematic%20composition%2C%20realistic%20textures%2C%20evening%20ambiance%20with%20golden%20warm%20lights%20contrasting%20dark%20sky%2C%20immersive%20market%20environment&width=1920&height=1080&seq=market001&orientation=landscape');
+          background-size: cover;
+          background-position: center;
+          opacity: 0.8;
+      }
+
+      .glass-effect {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#57b5e7",
+              secondary: "#8dd3c7",
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <header class="fixed top-0 w-full z-50 glass-effect">
+      <nav class="px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-8">
+            <h1 class="text-2xl font-['Pacifico'] text-primary animate-glow">
+              MarketPlace
+            </h1>
+            <div class="hidden md:flex space-x-6">
+              <a
+                href="#"
+                class="text-white hover:text-primary transition-colors duration-300 font-semibold"
+                >Market</a
+              >
+              <a
+                href="#"
+                class="text-white hover:text-primary transition-colors duration-300 font-semibold"
+                >Categories</a
+              >
+              <a
+                href="#"
+                class="text-white hover:text-primary transition-colors duration-300 font-semibold"
+                >Vendors</a
+              >
+              <a
+                href="#"
+                class="text-white hover:text-primary transition-colors duration-300 font-semibold"
+                >About</a
+              >
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="relative">
+              <input
+                type="text"
+                placeholder="Search market..."
+                class="bg-gray-800 border border-gray-600 rounded-button px-4 py-2 pr-10 text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors"
+              />
+              <div
+                class="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center"
+              >
+                <i class="ri-search-line text-gray-400"></i>
+              </div>
+            </div>
+            <button
+              class="bg-primary hover:bg-blue-600 text-white px-6 py-2 !rounded-button font-semibold transition-colors whitespace-nowrap"
+            >
+              Join Market
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero-bg min-h-screen flex items-center relative">
+      <div class="market-scene"></div>
+
+      <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div class="animate-cloud absolute top-20 opacity-60">
+          <div class="w-16 h-8 bg-gray-300 rounded-full"></div>
+        </div>
+        <div
+          class="animate-cloud absolute top-32 opacity-40"
+          style="animation-delay: -5s;"
+        >
+          <div class="w-20 h-10 bg-gray-400 rounded-full"></div>
+        </div>
+        <div class="animate-bird absolute top-24 opacity-80">
+          <div class="w-2 h-2 bg-gray-800 rounded-full"></div>
+        </div>
+        <div
+          class="animate-bird absolute top-28 opacity-60"
+          style="animation-delay: -3s;"
+        >
+          <div class="w-2 h-2 bg-gray-700 rounded-full"></div>
+        </div>
+      </div>
+
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl">
+          <h2 class="text-6xl font-bold mb-6 animate-slide-left">
+            Experience the <span class="text-primary">Ultimate</span> Market
+            Adventure
+          </h2>
+          <p class="text-xl mb-8 text-gray-200 animate-slide-right max-w-2xl">
+            Immerse yourself in a living, breathing marketplace where every
+            stall tells a story. Discover fresh produce, unique crafts, and
+            authentic experiences in our dynamic market environment.
+          </p>
+          <div class="flex space-x-4 animate-slide-left">
+            <button
+              class="bg-primary hover:bg-blue-600 text-white px-8 py-4 !rounded-button font-semibold text-lg transition-all duration-300 hover:scale-105 whitespace-nowrap"
+            >
+              Explore Market
+            </button>
+            <button
+              class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 !rounded-button font-semibold text-lg transition-all duration-300 whitespace-nowrap"
+            >
+              Watch Tour
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce-custom"
+      >
+        <div class="w-6 h-6 flex items-center justify-center text-white">
+          <i class="ri-arrow-down-line ri-lg"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-gray-800">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h3 class="text-4xl font-bold mb-4">Market Categories</h3>
+          <p class="text-xl text-gray-300">
+            Explore our diverse marketplace sections
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div
+            class="bg-gray-700 rounded-xl p-8 hover:bg-gray-600 transition-all duration-300 hover:scale-105 animate-float cursor-pointer"
+          >
+            <div
+              class="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mb-6 animate-bounce-custom"
+            >
+              <i class="ri-apple-line ri-2x text-white"></i>
+            </div>
+            <h4 class="text-2xl font-bold mb-4">Fresh Fruits</h4>
+            <p class="text-gray-300 mb-6">
+              Premium quality fruits from local orchards and farms
+            </p>
+            <div class="flex items-center text-primary font-semibold">
+              <span>Explore Fruits</span>
+              <div class="w-4 h-4 flex items-center justify-center ml-2">
+                <i class="ri-arrow-right-line"></i>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gray-700 rounded-xl p-8 hover:bg-gray-600 transition-all duration-300 hover:scale-105 animate-float cursor-pointer"
+            style="animation-delay: 0.2s;"
+          >
+            <div
+              class="w-16 h-16 bg-orange-500 rounded-xl flex items-center justify-center mb-6 animate-bounce-custom"
+            >
+              <i class="ri-plant-line ri-2x text-white"></i>
+            </div>
+            <h4 class="text-2xl font-bold mb-4">Vegetables</h4>
+            <p class="text-gray-300 mb-6">
+              Farm-fresh vegetables harvested daily for maximum nutrition
+            </p>
+            <div class="flex items-center text-primary font-semibold">
+              <span>Browse Vegetables</span>
+              <div class="w-4 h-4 flex items-center justify-center ml-2">
+                <i class="ri-arrow-right-line"></i>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gray-700 rounded-xl p-8 hover:bg-gray-600 transition-all duration-300 hover:scale-105 animate-float cursor-pointer"
+            style="animation-delay: 0.4s;"
+          >
+            <div
+              class="w-16 h-16 bg-purple-500 rounded-xl flex items-center justify-center mb-6 animate-bounce-custom"
+            >
+              <i class="ri-shirt-line ri-2x text-white"></i>
+            </div>
+            <h4 class="text-2xl font-bold mb-4">Clothing</h4>
+            <p class="text-gray-300 mb-6">
+              Handcrafted garments and traditional wear from skilled artisans
+            </p>
+            <div class="flex items-center text-primary font-semibold">
+              <span>Shop Clothing</span>
+              <div class="w-4 h-4 flex items-center justify-center ml-2">
+                <i class="ri-arrow-right-line"></i>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="bg-gray-700 rounded-xl p-8 hover:bg-gray-600 transition-all duration-300 hover:scale-105 animate-float cursor-pointer"
+            style="animation-delay: 0.6s;"
+          >
+            <div
+              class="w-16 h-16 bg-red-500 rounded-xl flex items-center justify-center mb-6 animate-bounce-custom"
+            >
+              <i class="ri-store-line ri-2x text-white"></i>
+            </div>
+            <h4 class="text-2xl font-bold mb-4">General Shops</h4>
+            <p class="text-gray-300 mb-6">
+              Unique crafts, spices, and specialty items from around the world
+            </p>
+            <div class="flex items-center text-primary font-semibold">
+              <span>Discover More</span>
+              <div class="w-4 h-4 flex items-center justify-center ml-2">
+                <i class="ri-arrow-right-line"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-gray-900">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h3 class="text-4xl font-bold mb-4">Live Market Activity</h3>
+          <p class="text-xl text-gray-300">
+            Real-time updates from our bustling marketplace
+          </p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2">
+            <div class="bg-gray-800 rounded-xl p-8">
+              <h4 class="text-2xl font-bold mb-6">Active Shoppers</h4>
+              <div class="space-y-4">
+                <div
+                  class="flex items-center space-x-4 p-4 bg-gray-700 rounded-lg animate-slide-left"
+                >
+                  <div
+                    class="w-12 h-12 bg-primary rounded-full flex items-center justify-center"
+                  >
+                    <i class="ri-user-line text-white"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="font-semibold">Sarah Johnson</div>
+                    <div class="text-sm text-gray-400">
+                      Browsing organic vegetables
+                    </div>
+                  </div>
+                  <div class="animate-walk">
+                    <div
+                      class="w-2 h-2 bg-green-500 rounded-full animate-pulse-custom"
+                    ></div>
+                  </div>
+                </div>
+
+                <div
+                  class="flex items-center space-x-4 p-4 bg-gray-700 rounded-lg animate-slide-right"
+                >
+                  <div
+                    class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center"
+                  >
+                    <i class="ri-user-line text-white"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="font-semibold">Michael Chen</div>
+                    <div class="text-sm text-gray-400">
+                      Purchasing handmade crafts
+                    </div>
+                  </div>
+                  <div class="animate-walk" style="animation-delay: 1s;">
+                    <div
+                      class="w-2 h-2 bg-orange-500 rounded-full animate-pulse-custom"
+                    ></div>
+                  </div>
+                </div>
+
+                <div
+                  class="flex items-center space-x-4 p-4 bg-gray-700 rounded-lg animate-slide-left"
+                >
+                  <div
+                    class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center"
+                  >
+                    <i class="ri-user-line text-white"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="font-semibold">Emma Rodriguez</div>
+                    <div class="text-sm text-gray-400">
+                      Exploring spice collections
+                    </div>
+                  </div>
+                  <div class="animate-walk" style="animation-delay: 2s;">
+                    <div
+                      class="w-2 h-2 bg-purple-500 rounded-full animate-pulse-custom"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-8">
+            <div class="bg-gray-800 rounded-xl p-6">
+              <h4 class="text-xl font-bold mb-4">Market Stats</h4>
+              <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-300">Active Vendors</span>
+                  <span
+                    class="text-2xl font-bold text-primary animate-pulse-custom"
+                    >247</span
+                  >
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-300">Daily Visitors</span>
+                  <span
+                    class="text-2xl font-bold text-secondary animate-pulse-custom"
+                    >1,892</span
+                  >
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-300">Products Available</span>
+                  <span
+                    class="text-2xl font-bold text-green-500 animate-pulse-custom"
+                    >15,634</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6">
+              <h4 class="text-xl font-bold mb-4">Weather Update</h4>
+              <div class="flex items-center space-x-4">
+                <div
+                  class="w-12 h-12 flex items-center justify-center text-yellow-500"
+                >
+                  <i class="ri-sun-line ri-2x animate-float"></i>
+                </div>
+                <div>
+                  <div class="text-2xl font-bold">24°C</div>
+                  <div class="text-gray-400">Perfect market weather</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-gray-800">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+          <h3 class="text-4xl font-bold mb-4">Interactive Shopping Zones</h3>
+          <p class="text-xl text-gray-300">
+            Experience our immersive market sections
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h4 class="text-3xl font-bold mb-6">Virtual Market Tour</h4>
+            <p class="text-lg text-gray-300 mb-8">
+              Take a guided journey through our marketplace with interactive
+              stalls, meet local vendors, and discover unique products from
+              around the world. Our immersive experience brings the authentic
+              market atmosphere directly to you.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-center space-x-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center"
+                >
+                  <i class="ri-check-line text-white text-sm"></i>
+                </div>
+                <span>Interactive vendor conversations</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center"
+                >
+                  <i class="ri-check-line text-white text-sm"></i>
+                </div>
+                <span>Real-time product browsing</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div
+                  class="w-6 h-6 bg-primary rounded-full flex items-center justify-center"
+                >
+                  <i class="ri-check-line text-white text-sm"></i>
+                </div>
+                <span>Authentic market sounds and ambiance</span>
+              </div>
+            </div>
+            <button
+              class="mt-8 bg-primary hover:bg-blue-600 text-white px-8 py-4 !rounded-button font-semibold text-lg transition-all duration-300 hover:scale-105 whitespace-nowrap"
+            >
+              Start Virtual Tour
+            </button>
+          </div>
+
+          <div class="relative">
+            <div class="bg-gray-700 rounded-xl p-8 animate-float">
+              <img
+                src="https://readdy.ai/api/search-image?query=Interactive%20digital%20marketplace%20interface%20showing%20virtual%20stalls%20with%20fruits%20vegetables%20and%20crafts%2C%20modern%20UI%20design%20with%20dark%20theme%2C%20glowing%20elements%2C%20people%20avatars%20shopping%2C%20immersive%203D%20market%20environment%2C%20high-tech%20shopping%20experience&width=600&height=400&seq=interactive001&orientation=landscape"
+                alt="Interactive Shopping Interface"
+                class="w-full h-64 object-cover rounded-lg mb-6"
+              />
+              <div class="flex justify-between items-center">
+                <div>
+                  <div class="text-sm text-gray-400">Currently Active</div>
+                  <div class="text-2xl font-bold">156 Shoppers</div>
+                </div>
+                <div class="animate-pulse-custom">
+                  <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 bg-gradient-to-r from-primary to-secondary">
+      <div class="container mx-auto px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+          <h3 class="text-4xl font-bold mb-6 text-white">
+            Join Our Vibrant Market Community
+          </h3>
+          <p class="text-xl mb-8 text-white opacity-90">
+            Become part of the most dynamic marketplace experience. Connect with
+            vendors, discover unique products, and immerse yourself in authentic
+            market culture.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              class="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 !rounded-button font-semibold text-lg transition-all duration-300 hover:scale-105 whitespace-nowrap"
+            >
+              Become a Vendor
+            </button>
+            <button
+              class="border-2 border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 !rounded-button font-semibold text-lg transition-all duration-300 whitespace-nowrap"
+            >
+              Start Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-gray-900 py-16">
+      <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-4 gap-8">
+          <div>
+            <h4
+              class="text-2xl font-['Pacifico'] text-primary mb-4 animate-glow"
+            >
+              MarketPlace
+            </h4>
+            <p class="text-gray-400 mb-6">
+              Experience the ultimate marketplace adventure with authentic
+              vendors, fresh products, and immersive shopping experiences.
+            </p>
+            <div class="flex space-x-4">
+              <div
+                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors cursor-pointer"
+              >
+                <i class="ri-facebook-fill text-white"></i>
+              </div>
+              <div
+                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors cursor-pointer"
+              >
+                <i class="ri-twitter-fill text-white"></i>
+              </div>
+              <div
+                class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition-colors cursor-pointer"
+              >
+                <i class="ri-instagram-fill text-white"></i>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h5 class="text-lg font-bold mb-4">Market Sections</h5>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Fresh Produce</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Artisan Crafts</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Local Specialties</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Clothing & Textiles</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 class="text-lg font-bold mb-4">Services</h5>
+            <ul class="space-y-2 text-gray-400">
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Virtual Tours</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Vendor Registration</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Market Events</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition-colors"
+                  >Customer Support</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 class="text-lg font-bold mb-4">Contact Info</h5>
+            <div class="space-y-3 text-gray-400">
+              <div class="flex items-center space-x-3">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span>123 Market Street, City Center</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-phone-line"></i>
+                </div>
+                <span>+1 (555) 123-4567</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-mail-line"></i>
+                </div>
+                <span>hello@marketplace.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400"
+        >
+          <p>
+            &copy; 2024 MarketPlace. All rights reserved. Experience the
+            authentic market adventure.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script id="navigation-interactions">
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.querySelector('input[type="text"]');
+        const navLinks = document.querySelectorAll("nav a");
+
+        searchInput.addEventListener("focus", function () {
+          this.parentElement.classList.add("animate-glow");
+        });
+
+        searchInput.addEventListener("blur", function () {
+          this.parentElement.classList.remove("animate-glow");
+        });
+
+        navLinks.forEach((link) => {
+          link.addEventListener("mouseenter", function () {
+            this.style.transform = "translateY(-2px)";
+          });
+
+          link.addEventListener("mouseleave", function () {
+            this.style.transform = "translateY(0)";
+          });
+        });
+      });
+    </script>
+
+    <script id="market-animations">
+      document.addEventListener("DOMContentLoaded", function () {
+        const categoryCards = document.querySelectorAll(".bg-gray-700");
+        const statsNumbers = document.querySelectorAll(".animate-pulse-custom");
+
+        categoryCards.forEach((card, index) => {
+          card.addEventListener("mouseenter", function () {
+            const icon = this.querySelector(".animate-bounce-custom");
+            icon.style.animationDuration = "0.5s";
+          });
+
+          card.addEventListener("mouseleave", function () {
+            const icon = this.querySelector(".animate-bounce-custom");
+            icon.style.animationDuration = "2s";
+          });
+        });
+
+        function animateNumbers() {
+          statsNumbers.forEach((number) => {
+            const finalValue = parseInt(number.textContent);
+            const increment = finalValue / 50;
+            let current = 0;
+
+            const timer = setInterval(() => {
+              current += increment;
+              if (current >= finalValue) {
+                current = finalValue;
+                clearInterval(timer);
+              }
+              number.textContent = Math.floor(current).toLocaleString();
+            }, 50);
+          });
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateNumbers();
+              observer.unobserve(entry.target);
+            }
+          });
+        });
+
+        if (statsNumbers.length > 0) {
+          observer.observe(statsNumbers[0].closest("section"));
+        }
+      });
+    </script>
+
+    <script id="dynamic-elements">
+      document.addEventListener("DOMContentLoaded", function () {
+        function createFloatingElement(className, delay = 0) {
+          setTimeout(() => {
+            const element = document.createElement("div");
+            element.className = className;
+            element.style.position = "absolute";
+            element.style.pointerEvents = "none";
+
+            if (className.includes("cloud")) {
+              element.innerHTML =
+                '<div class="w-12 h-6 bg-gray-300 rounded-full opacity-40"></div>';
+              element.style.top = Math.random() * 200 + 50 + "px";
+            } else if (className.includes("bird")) {
+              element.innerHTML =
+                '<div class="w-1 h-1 bg-gray-800 rounded-full"></div>';
+              element.style.top = Math.random() * 150 + 80 + "px";
+            }
+
+            const heroSection = document.querySelector(".hero-bg");
+            const animationContainer = heroSection.querySelector(".absolute.top-0");
+            animationContainer.appendChild(element);
+
+            element.addEventListener("animationend", () => {
+              element.remove();
+            });
+          }, delay);
+        }
+
+        setInterval(() => {
+          createFloatingElement("animate-cloud", 0);
+          createFloatingElement("animate-bird", Math.random() * 3000);
+        }, 8000);
+
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach((button) => {
+          button.addEventListener("click", function (e) {
+            const ripple = document.createElement("div");
+            ripple.style.position = "absolute";
+            ripple.style.borderRadius = "50%";
+            ripple.style.background = "rgba(255, 255, 255, 0.3)";
+            ripple.style.transform = "scale(0)";
+            ripple.style.animation = "ripple 0.6s linear";
+            ripple.style.left = e.clientX - e.target.offsetLeft + "px";
+            ripple.style.top = e.clientY - e.target.offsetTop + "px";
+            ripple.style.width = ripple.style.height = "20px";
+
+            this.style.position = "relative";
+            this.appendChild(ripple);
+
+            setTimeout(() => {
+              ripple.remove();
+            }, 600);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
